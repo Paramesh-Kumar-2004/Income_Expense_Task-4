@@ -14,6 +14,10 @@ const Select = document.getElementById("Select")
 const Add = document.getElementById("Add")
 const Clear = document.getElementById("Clear")
 
+// TableData To Show The Values
+const Lists = document.getElementById("TableData")
+
+
 
 // Functionalities Start Here
 
@@ -34,17 +38,56 @@ Add.addEventListener("click", () => {
     if ((Title.value).length > 0 && (Amount.value).length > 0) {
         Data.push({
             id: Date.now(),
-            "Title": Title.value,
-            "Amount": Amount.value
+            "title": Title.value,
+            "amount": Amount.value,
+            "filter": Select.value,
         })
+        localStorage.setItem("data", JSON.stringify(Data))
         Title.value = ""
         Amount.value = ""
     }
     else {
         alert("Enter All The Fields")
     }
-
-
 })
 
-console.log("Income :", Data)
+
+// Take Data From LocalStorage
+const GetDataToShow = () => {
+    const Items = JSON.parse(localStorage.getItem("data"))
+    Items.forEach(element => {
+        Lists.innerHTML = `
+            <tr class="border-2">
+                <td class="text-center">${element.title}</td>
+                <td class="text-center">${element.amount}</td>
+                <td class="text-center">${element.filter}</td>
+                <td class=" text-center">
+                    <button value=${element.id} id="HandleDelete">Delete</button>
+                </td>
+            </tr>
+        `
+    });
+}
+
+// Delete Item From Local Storage
+document.addEventListener("DOMContentLoaded", () => {
+    // GetDataToShow()
+    const DeleteBtn = document.getElementById("HandleDelete");
+    DeleteBtn.addEventListener("click", () => {
+        console.log(DeleteBtn.value);
+    });
+});
+
+
+Items.forEach(element => {
+    Lists.innerHTML = `
+            <tr class="border-2">
+                <td class="text-center">${element.title}</td>
+                <td class="text-center">${element.amount}</td>
+                <td class="text-center">${element.filter}</td>
+                <td class=" text-center">
+                    <button value=${element.id} id="HandleDelete">Delete</button>
+                </td>
+            </tr>
+        `
+});
