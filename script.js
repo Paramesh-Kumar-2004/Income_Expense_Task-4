@@ -10,6 +10,9 @@ const Amount = document.getElementById("Amount")
 // DropDown
 const Select = document.getElementById("Select")
 
+// Radio Buttons
+const Filter = document.getElementsByName("radioBtn")
+
 // Buttons
 const Add = document.getElementById("Add")
 const Clear = document.getElementById("Clear")
@@ -81,7 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const Items = JSON.parse(localStorage.getItem("data"))
 Items.forEach(element => {
-    Lists.innerHTML = `
+    console.log(Filter.checked)
+    if (Filter.value === "Income") {
+        if (element.filter === "Income") {
+            Lists.innerHTML += `
         <tr class="border-2">
             <td class="text-center">${element.title}</td>
             <td class="text-center">${element.amount}</td>
@@ -91,4 +97,7 @@ Items.forEach(element => {
             </td>
         </tr>
     `
+        }
+    }
+
 });
