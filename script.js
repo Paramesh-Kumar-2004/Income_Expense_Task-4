@@ -33,7 +33,7 @@ Total.innerHTML = Income
 Cost.innerHTML = Expense
 Balance.innerHTML = NetWorth
 
-const Data = []
+const Data = [{}]
 
 
 Add.addEventListener("click", () => {
@@ -45,14 +45,15 @@ Add.addEventListener("click", () => {
             "amount": Amount.value,
             "filter": Select.value,
         })
-        localStorage.setItem("data", JSON.stringify(Data))
         Title.value = ""
         Amount.value = ""
     }
     else {
         alert("Enter All The Fields")
     }
+    localStorage.setItem("data", JSON.stringify(Data))
 })
+
 
 
 // Take Data From LocalStorage
