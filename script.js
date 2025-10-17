@@ -67,6 +67,9 @@ const GetDataToShow = () => {
                 <td class=" text-center">
                     <button value=${element.id} id="HandleDelete">Delete</button>
                 </td>
+                <td class=" text-center">
+                    <button value=${element.id} id="HandleUpdate">Update</button>
+                </td>
             </tr>
         `
     });
@@ -74,30 +77,16 @@ const GetDataToShow = () => {
 
 // Delete Item From Local Storage
 document.addEventListener("DOMContentLoaded", () => {
-    // GetDataToShow()
+    GetDataToShow()
     const DeleteBtn = document.getElementById("HandleDelete");
     DeleteBtn.addEventListener("click", () => {
-        console.log(DeleteBtn.value);
+        console.log("Delete : ", DeleteBtn.value);
     });
-});
 
-
-const Items = JSON.parse(localStorage.getItem("data"))
-Items.forEach(element => {
-    console.log(Filter.checked)
-    if (Filter.value === "Income") {
-        if (element.filter === "Income") {
-            Lists.innerHTML += `
-        <tr class="border-2">
-            <td class="text-center">${element.title}</td>
-            <td class="text-center">${element.amount}</td>
-            <td class="text-center">${element.filter}</td>
-            <td class=" text-center">
-                <button value=${element.id} id="HandleDelete">Delete</button>
-            </td>
-        </tr>
-    `
-        }
-    }
+    const UpdateBtn = document.getElementById("HandleUpdate");
+    UpdateBtn.addEventListener("click", () => {
+        console.log("Update : ", UpdateBtn.value);
+    });
 
 });
+
