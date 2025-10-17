@@ -79,15 +79,3 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-Items.forEach(element => {
-    Lists.innerHTML = `
-            <tr class="border-2">
-                <td class="text-center">${element.title}</td>
-                <td class="text-center">${element.amount}</td>
-                <td class="text-center">${element.filter}</td>
-                <td class=" text-center">
-                    <button value=${element.id} id="HandleDelete">Delete</button>
-                </td>
-            </tr>
-        `
-});
