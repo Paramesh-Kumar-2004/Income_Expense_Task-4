@@ -25,16 +25,36 @@ const Lists = document.getElementById("TableData")
 // Functionalities Start Here
 
 // Data Const
-const Income = 0
-const Expense = 0
-const NetWorth = Income - Expense
+const Data = JSON.parse(localStorage.getItem("data")) || []
 
-Total.innerHTML = Income
-Cost.innerHTML = Expense
-Balance.innerHTML = NetWorth
+const HandeleValueSet = () => {
+    const Income = Data.reduce((sum, Item) => {
+        if (Item.filter === "Income") {
+            return Number(Item.amount) + sum
+        }
+        else {
+            return sum
+        }
+    }, 0)
+
+    const Expense = Data.reduce((sum, Item) => {
+        if (Item.filter === "Expense") {
+            return Number(Item.amount) + sum
+        }
+        else {
+            return sum
+        }
+    }, 0)
+
+    const NetWorth = Income - Expense
+
+    Total.innerHTML = Income
+    Cost.innerHTML = Expense
+    Balance.innerHTML = NetWorth
+}
 
 
-const Data = [{}]
+
 
 Add.addEventListener("click", () => {
     // Select.value
@@ -46,6 +66,7 @@ Add.addEventListener("click", () => {
             "filter": Select.value,
         })
         localStorage.setItem("data", JSON.stringify(Data))
+        HandeleValueSet()
 
         Title.value = ""
         Amount.value = ""
@@ -56,12 +77,17 @@ Add.addEventListener("click", () => {
 })
 
 
+Clear.addEventListener("click", () => {
+    Title.value = ""
+    Amount.value = ""
+    HandeleValueSet()
+})
 
-// Take Data From LocalStorage
+
+// Take Data From LocalStorage And Show In Table
 const GetDataToShow = () => {
-    const Items = JSON.parse(localStorage.getItem("data"))
-    Items.forEach(element => {
-        Lists.innerHTML = `
+    Data.forEach(element => {
+        Lists.innerHTML += `
             <tr class="border-2">
                 <td class="text-center">${element.title}</td>
                 <td class="text-center">${element.amount}</td>
@@ -77,9 +103,12 @@ const GetDataToShow = () => {
     });
 }
 
+
+
 // Delete Item From Local Storage
 document.addEventListener("DOMContentLoaded", () => {
     GetDataToShow()
+    HandeleValueSet()
     const DeleteBtn = document.getElementById("HandleDelete");
     DeleteBtn.addEventListener("click", () => {
         console.log("Delete : ", DeleteBtn.value);
