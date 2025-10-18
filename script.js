@@ -11,7 +11,7 @@ const Amount = document.getElementById("Amount")
 const Select = document.getElementById("Select")
 
 // Radio Buttons
-const Filter = document.getElementsByName("radioBtn")
+const Category = document.getElementsByName("radioBtn")
 
 // Buttons
 const Add = document.getElementById("Add")
@@ -23,6 +23,23 @@ const Lists = document.getElementById("TableData")
 
 
 // Functionalities Start Here
+
+
+function HandleCheckValue() {
+    for (let i = 0; i < Category.length; i++) {
+        if (Category[i].checked) {
+            return Category[i].id
+            break
+        }
+    }
+}
+Category.forEach((radio) => {
+    radio.addEventListener("click", () => {
+        console.log(HandleCheckValue());
+        GetDataToShow()
+    });
+});
+
 
 // Data Const
 const Data = JSON.parse(localStorage.getItem("data")) || []
@@ -86,17 +103,21 @@ Clear.addEventListener("click", () => {
 
 // Take Data From LocalStorage And Show In Table
 const GetDataToShow = () => {
-    Data.forEach(element => {
+    Data.forEach((element, key) => {
+        // if (Filter.checked) {
+        //     console.log(Filter.value)
+        // }
         Lists.innerHTML += `
-            <tr class="border-2">
-                <td class="text-center">${element.title}</td>
-                <td class="text-center">${element.amount}</td>
-                <td class="text-center">${element.filter}</td>
-                <td class=" text-center">
-                    <button value=${element.id} id="HandleDelete">Delete</button>
+            <tr class="border-b-2 border-t-2 border-slate-500">
+                <td class="text-center font-bold text-base">${key + 1}</td>
+                <td class="text-center font-bold text-base">${element.title}</td>
+                <td class="text-center font-bold text-base">${element.amount}</td>
+                <td class="text-center font-bold text-base">${element.filter}</td>
+                <td class=" text-center text-white font-bold text-base">
+                    <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
                 </td>
-                <td class=" text-center">
-                    <button value=${element.id} id="HandleUpdate">Update</button>
+                <td class=" text-center font-bold text-base text-white">
+                    <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
                 </td>
             </tr>
         `
