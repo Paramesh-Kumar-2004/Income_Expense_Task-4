@@ -41,7 +41,7 @@ Category.forEach((radio) => {
 
 
 // Data Const
-const Data = JSON.parse(localStorage.getItem("data")) || []
+let Data = JSON.parse(localStorage.getItem("data")) || []
 
 const HandeleValueSet = () => {
     const Income = Data.reduce((sum, Item) => {
@@ -88,6 +88,7 @@ Add.addEventListener("click", () => {
     else {
         alert("Enter All The Fields")
     }
+    GetDataToShow()
 })
 
 
@@ -101,7 +102,6 @@ Clear.addEventListener("click", () => {
 // Take Data From LocalStorage And Show In Table
 const GetDataToShow = () => {
     const FilterBy = HandleCheckValue()
-    console.log(FilterBy)
     Lists.innerHTML = ""
     let count = 0
     Data.forEach((element, key) => {
@@ -115,11 +115,11 @@ const GetDataToShow = () => {
                     <td class="text-center font-bold text-base">${element.title}</td>
                     <td class="text-center font-bold text-base">${element.amount}</td>
                     <td class="text-center font-bold text-base">${element.filter}</td>
-                    <td class=" text-center text-white font-bold text-base">
-                        <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                    <td class="text-center text-white font-bold text-base">
+                        <button value=${element.id} class="HandleDelete m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
                     </td>
-                    <td class=" text-center font-bold text-base text-white">
-                        <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                    <td class="text-center font-bold text-base text-white">
+                        <button value=${element.id} class="HandleUpdate m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
                     </td>
                 </tr>
             `
@@ -133,11 +133,11 @@ const GetDataToShow = () => {
                         <td class="text-center font-bold text-base">${element.title}</td>
                         <td class="text-center font-bold text-base">${element.amount}</td>
                         <td class="text-center font-bold text-base">${element.filter}</td>
-                        <td class=" text-center text-white font-bold text-base">
-                            <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                        <td class="text-center text-white font-bold text-base">
+                            <button value=${element.id} class="HandleDelete m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
                         </td>
-                        <td class=" text-center font-bold text-base text-white">
-                            <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                        <td class="text-center font-bold text-base text-white">
+                            <button value=${element.id} class="HandleUpdate m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
                         </td>
                     </tr>
                 `
@@ -152,35 +152,64 @@ const GetDataToShow = () => {
                         <td class="text-center font-bold text-base">${element.title}</td>
                         <td class="text-center font-bold text-base">${element.amount}</td>
                         <td class="text-center font-bold text-base">${element.filter}</td>
-                        <td class=" text-center text-white font-bold text-base">
-                            <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                        <td class="text-center text-white font-bold text-base">
+                            <button value=${element.id} class="HandleDelete m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
                         </td>
-                        <td class=" text-center font-bold text-base text-white">
-                            <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                        <td class="text-center font-bold text-base text-white">
+                            <button value=${element.id} class="HandleUpdate m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
                         </td>
                     </tr>
                 `
             }
         }
-
     });
-}
 
+    const DeleteBtns = document.querySelectorAll(".HandleDelete");
+    DeleteBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = Number(e.target.value);
+            console.log("Deleting id:", id);
+
+            Data = Data.filter(item => item.id !== id);
+
+            localStorage.setItem("data", JSON.stringify(Data));
+
+            GetDataToShow();
+            HandeleValueSet();
+        });
+    });
+
+    const UpdateBtns = document.querySelectorAll(".HandleUpdate");
+    UpdateBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const id = Number(e.target.value);
+            console.log("Updating id:", id);
+
+            GetDataToShow();
+            HandeleValueSet();
+        });
+    });
+
+
+}
 
 
 // Delete Item From Local Storage
 document.addEventListener("DOMContentLoaded", () => {
-    GetDataToShow()
-    HandeleValueSet()
-    const DeleteBtn = document.getElementById("HandleDelete");
-    DeleteBtn.addEventListener("click", () => {
-        console.log("Delete : ", DeleteBtn.value);
-    });
-
-    const UpdateBtn = document.getElementById("HandleUpdate");
-    UpdateBtn.addEventListener("click", () => {
-        console.log("Update : ", UpdateBtn.value);
-    });
+    GetDataToShow();
+    HandeleValueSet();
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
