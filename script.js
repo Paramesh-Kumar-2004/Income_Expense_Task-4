@@ -103,13 +103,15 @@ const GetDataToShow = () => {
     const FilterBy = HandleCheckValue()
     console.log(FilterBy)
     Lists.innerHTML = ""
-
+    let count = 0
     Data.forEach((element, key) => {
 
+
         if (FilterBy === "All") {
+            count += 1
             Lists.innerHTML += `
                 <tr class="border-b-2 border-t-2 border-slate-500">
-                    <td class="text-center font-bold text-base">${key + 1}</td>
+                    <td class="text-center font-bold text-base">${count}</td>
                     <td class="text-center font-bold text-base">${element.title}</td>
                     <td class="text-center font-bold text-base">${element.amount}</td>
                     <td class="text-center font-bold text-base">${element.filter}</td>
@@ -124,10 +126,10 @@ const GetDataToShow = () => {
         }
         else if (FilterBy === "Income") {
             if (element.filter === "Income") {
-
+                count += 1
                 Lists.innerHTML += `
                     <tr class="border-b-2 border-t-2 border-slate-500">
-                        <td class="text-center font-bold text-base">${key + 1}</td>
+                        <td class="text-center font-bold text-base">${count}</td>
                         <td class="text-center font-bold text-base">${element.title}</td>
                         <td class="text-center font-bold text-base">${element.amount}</td>
                         <td class="text-center font-bold text-base">${element.filter}</td>
@@ -143,10 +145,10 @@ const GetDataToShow = () => {
         }
         else {
             if (element.filter === "Expense") {
-
+                count += 1
                 Lists.innerHTML += `
                     <tr class="border-b-2 border-t-2 border-slate-500">
-                        <td class="text-center font-bold text-base">${key + 1}</td>
+                        <td class="text-center font-bold text-base">${count}</td>
                         <td class="text-center font-bold text-base">${element.title}</td>
                         <td class="text-center font-bold text-base">${element.amount}</td>
                         <td class="text-center font-bold text-base">${element.filter}</td>
