@@ -21,6 +21,16 @@ const Clear = document.getElementById("Clear")
 const Lists = document.getElementById("TableData")
 
 
+// Modal Elements
+const UpdateModal = document.getElementById("updateModal")
+const ModalTitle = document.getElementById("modalTitle")
+const ModalAmount = document.getElementById("modalAmount")
+const ModalSelect = document.getElementById("modalSelect")
+const ModalCancel = document.getElementById("modalCancel")
+const ModalUpdate = document.getElementById("modalUpdate")
+
+
+
 
 // Functionalities Start Here
 
@@ -184,32 +194,66 @@ const GetDataToShow = () => {
         btn.addEventListener("click", (e) => {
             const id = Number(e.target.value);
             console.log("Updating id:", id);
-
-            GetDataToShow();
-            HandeleValueSet();
+            UpdateModal.classList.add("visible")
         });
     });
-
-
 }
 
 
-// Delete Item From Local Storage
-document.addEventListener("DOMContentLoaded", () => {
+
+// Modal Functionalites
+
+let EditingId = null;
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("HandleUpdate")) {
+        const id = Number(e.target.value);
+        const item = Data.find(x => x.id === id);
+        if (!item) return;
+
+        EditingId = id;
+        ModalTitle.value = item.title;
+        ModalAmount.value = item.amount;
+        ModalSelect.value = item.filter;
+
+        UpdateModal.classList.remove("hidden");
+        UpdateModal.classList.add("flex");
+    }
+});
+
+// Cancel modal
+ModalCancel.addEventListener("click", () => {
+    UpdateModal.classList.add("hidden");
+    UpdateModal.classList.remove("flex");
+    EditingId = null;
+});
+
+// Update modal
+ModalUpdate.addEventListener("click", () => {
+    if (!EditingId) return;
+
+    const index = Data.findIndex(x => x.id === EditingId);
+    if (index !== -1) {
+        Data[index].title = ModalTitle.value.trim();
+        Data[index].amount = ModalAmount.value.trim();
+        Data[index].filter = ModalSelect.value;
+    }
+
+    localStorage.setItem("data", JSON.stringify(Data));
+    UpdateModal.classList.add("hidden");
+    UpdateModal.classList.remove("flex");
+    EditingId = null;
+
     GetDataToShow();
     HandeleValueSet();
-
 });
 
 
 
 
-
-
-
-
-
-
-
-
-
+// On Load
+document.addEventListener("DOMContentLoaded", () => {
+    GetDataToShow();
+    HandeleValueSet();
+    UpdateModal.classList.add("hidden")
+});
