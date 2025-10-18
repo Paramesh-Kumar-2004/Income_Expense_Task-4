@@ -35,7 +35,6 @@ function HandleCheckValue() {
 }
 Category.forEach((radio) => {
     radio.addEventListener("click", () => {
-        console.log(HandleCheckValue());
         GetDataToShow()
     });
 });
@@ -71,8 +70,6 @@ const HandeleValueSet = () => {
 }
 
 
-
-
 Add.addEventListener("click", () => {
     // Select.value
     if ((Title.value).length > 0 && (Amount.value).length > 0) {
@@ -103,24 +100,67 @@ Clear.addEventListener("click", () => {
 
 // Take Data From LocalStorage And Show In Table
 const GetDataToShow = () => {
+    const FilterBy = HandleCheckValue()
+    console.log(FilterBy)
+    Lists.innerHTML = ""
+
     Data.forEach((element, key) => {
-        // if (Filter.checked) {
-        //     console.log(Filter.value)
-        // }
-        Lists.innerHTML += `
-            <tr class="border-b-2 border-t-2 border-slate-500">
-                <td class="text-center font-bold text-base">${key + 1}</td>
-                <td class="text-center font-bold text-base">${element.title}</td>
-                <td class="text-center font-bold text-base">${element.amount}</td>
-                <td class="text-center font-bold text-base">${element.filter}</td>
-                <td class=" text-center text-white font-bold text-base">
-                    <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
-                </td>
-                <td class=" text-center font-bold text-base text-white">
-                    <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
-                </td>
-            </tr>
-        `
+
+        if (FilterBy === "All") {
+            Lists.innerHTML += `
+                <tr class="border-b-2 border-t-2 border-slate-500">
+                    <td class="text-center font-bold text-base">${key + 1}</td>
+                    <td class="text-center font-bold text-base">${element.title}</td>
+                    <td class="text-center font-bold text-base">${element.amount}</td>
+                    <td class="text-center font-bold text-base">${element.filter}</td>
+                    <td class=" text-center text-white font-bold text-base">
+                        <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                    </td>
+                    <td class=" text-center font-bold text-base text-white">
+                        <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                    </td>
+                </tr>
+            `
+        }
+        else if (FilterBy === "Income") {
+            if (element.filter === "Income") {
+
+                Lists.innerHTML += `
+                    <tr class="border-b-2 border-t-2 border-slate-500">
+                        <td class="text-center font-bold text-base">${key + 1}</td>
+                        <td class="text-center font-bold text-base">${element.title}</td>
+                        <td class="text-center font-bold text-base">${element.amount}</td>
+                        <td class="text-center font-bold text-base">${element.filter}</td>
+                        <td class=" text-center text-white font-bold text-base">
+                            <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                        </td>
+                        <td class=" text-center font-bold text-base text-white">
+                            <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                        </td>
+                    </tr>
+                `
+            }
+        }
+        else {
+            if (element.filter === "Expense") {
+
+                Lists.innerHTML += `
+                    <tr class="border-b-2 border-t-2 border-slate-500">
+                        <td class="text-center font-bold text-base">${key + 1}</td>
+                        <td class="text-center font-bold text-base">${element.title}</td>
+                        <td class="text-center font-bold text-base">${element.amount}</td>
+                        <td class="text-center font-bold text-base">${element.filter}</td>
+                        <td class=" text-center text-white font-bold text-base">
+                            <button value=${element.id} id="HandleDelete" class="m-1 py-1 px-2 rounded-md bg-red-600">Delete</button>
+                        </td>
+                        <td class=" text-center font-bold text-base text-white">
+                            <button value=${element.id} id="HandleUpdate" class="m-1 py-1 px-2 rounded-md bg-green-600">Update</button>
+                        </td>
+                    </tr>
+                `
+            }
+        }
+
     });
 }
 
